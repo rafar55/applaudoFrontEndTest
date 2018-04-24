@@ -3,13 +3,18 @@ export class Bloque {
   Id: number;
   private _IsFree: boolean;
   private _Contenido: string;
+  backgroundColor: string;
+
+  constructor(Id: number) {
+    this.Id = Id;
+  }
 
   get IsFree(): boolean {
     return this._IsFree;
   }
 
   get Contenido(): string {
-    return this.Contenido;
+    return this._Contenido;
   }
 
   SetDato(tipo: TipoContenido): void {

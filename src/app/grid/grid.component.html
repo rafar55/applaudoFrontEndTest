@@ -1,17 +1,10 @@
 <div class="tablero">
-    <div class="row">
-      <div class="cell col">X</div>
-      <div class="cell col">0</div>
-      <div class="cell col">X</div>
-    </div>
-    <div class="row">
-        <div class="cell col">X</div>
-        <div class="cell col">0</div>
-        <div class="cell col">X</div>
-      </div>
-    <div class="row">
-        <div class="cell col">X</div>
-        <div class="cell col">0</div>
-        <div class="cell col">X</div>
+    <div  *ngFor="let row of ListaRows" class="row">
+      <div *ngFor="let cell of row.ListadoBloques"
+           (mouseover)="OnHover(cell)"
+           (mouseleave)="OnOut(cell)"
+           (click)="OnClick(cell.Id)"
+           [style.backgroundColor]="cell.backgroundColor"
+           class="cell col">{{ cell.Contenido }}</div>
     </div>
   </div>

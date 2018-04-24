@@ -1,4 +1,8 @@
+import { Bloque } from './../Models/bloque';
+
 import { Component, OnInit, Input } from '@angular/core';
+import { IRow } from '../Models/Row';
+
 
 
 @Component({
@@ -7,15 +11,30 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./grid.component.css']
 })
 export class GridComponent implements OnInit {
-  @Input() rows: number;
-  @Input() cols: number;
+   @Input() ListaRows: IRow[];
+
+  backgroundColor: string;
 
   constructor() {
-    this.rows = 3;
-    this.cols = 4;
+
   }
+
 
   ngOnInit() {
+    console.log('iniciando grid component');
   }
 
+  OnHover(bloque: Bloque): void {
+    console.log('mouse encima');
+    bloque.backgroundColor = 'gray';
+  }
+
+  OnOut(bloque: Bloque): void {
+   console.log('mouse out');
+   bloque.backgroundColor = 'white';
+  }
+
+  OnClick(IdCelda: number): void {
+    console.log('Click en la celda ' +  IdCelda);
+  }
 }
