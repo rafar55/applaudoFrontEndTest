@@ -4,9 +4,13 @@ import { IRow } from './../Models/Row';
 import { ConfigOptions } from './../Models/ConfigOptions';
 import { Injectable } from '@angular/core';
 import { TipoContenido } from '../Models/Tipo';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class GameService {
+
+  Terminado = new Subject<Player>();
+
 
   ListaFilas: IRow[];
   Player1: Player;
@@ -16,6 +20,7 @@ export class GameService {
   private _configuracion: ConfigOptions;
   private turno: boolean;
   private _movidas: number;
+  private _juegoTerminado: boolean;
 
   get Configuracion(): ConfigOptions {
     return this._configuracion;
@@ -49,18 +54,115 @@ export class GameService {
     this.Empates = 0;
     this.turno = true;
     this._movidas = 1;
+    this._juegoTerminado = false;
   }
 
   public ProcesarTurno(idCelda: number) {
     const celda = this.GetBloqueByID(idCelda);
 
-    if (!celda.IsFree) {return; }
+    if (!celda.IsFree || this._juegoTerminado) {return; }
 
     celda.SetDato(this.PlayerActual.Tipo);
     this.turno = !this.turno;
     this._movidas++;
+
+    this.CheckEstadoJuego();
   }
 
+  // Este es el metodo que me dira si el juego ya termino
+  private CheckEstadoJuego(): void {
+
+    // Primero busco si alquien ha ganado por completar horizontal
+    if (this.CheckHorizontalWin()) {
+        console.log('Juego se gano por completar una fila');
+        this.PlayerActual.Wins += 1;
+        this._juegoTerminado = true;
+        this.Terminado.next(this.PlayerActual);
+        return;
+    }
+
+    if (this.CheckVerticalWin()) {
+      console.log('juego se gano de forma vertical');
+      this.PlayerActual.Wins += 1;
+      this._juegoTerminado = true;
+      this.Terminado.next(this.PlayerActual);
+      return;
+    }
+
+    if (this.CheckDraw()) {
+      console.log('Empate');
+      this.Empates += 1;
+      this._juegoTerminado = true;
+      this.Terminado.next(null);
+      return;
+    }
+  }
+
+
+  private CheckHorizontalWin(): boolean {
+    let flagGanado = false;
+    const celdasGanadoras: Bloque[] = [];
+    for (const row of this.ListaFilas) {
+
+     let valorActual: string = row.ListadoBloques[0].Contenido;
+
+     for (const cell of row.ListadoBloques) {
+        flagGanado = (valorActual === cell.Contenido && cell.IsFree === false);
+        if (flagGanado) {
+          celdasGanadoras.push(cell);
+        }
+        valorActual = cell.Contenido;
+      }
+
+      if (flagGanado) {
+        this.ShowWinningCells(celdasGanadoras);
+        return true;
+       }
+    }
+    return false;
+  }
+
+  private CheckVerticalWin(): boolean {
+    let flagGanado = false;
+    const celdasGanadoras: Bloque[] = [];
+    for (let y = 0; y < this._configuracion.numN; y++) {
+
+        let valorActual = this.ListaFilas[0].ListadoBloques[y].Contenido;
+
+        for (let x =  0; x < this._configuracion.numN; x++) {
+          const filaActual = this.ListaFilas[x];
+          const cellActual = filaActual.ListadoBloques[y];
+           flagGanado = (valorActual === cellActual.Contenido && cellActual.IsFree === false );
+           if (flagGanado) {
+              celdasGanadoras.push(cellActual);
+           }
+           valorActual = cellActual.Contenido;
+        }
+
+        if (flagGanado) {
+          this.ShowWinningCells(celdasGanadoras);
+          return true;
+         }
+    }
+
+    return false;
+  }
+
+  private CheckDraw(): boolean {
+    for (const row of this.ListaFilas) {
+      for (const cell of row.ListadoBloques) {
+          if (cell.IsFree === false) {
+            return false;
+          }
+       }
+     }
+     return true;
+  }
+
+
+  private ShowWinningCells(listaCells: Bloque[]) {
+    listaCells.forEach(x => x.backgroundColor = '#c5f2bc');
+  }
 
   private GenerarRows(numCell: number): IRow[] {
       const arregloRows: IRow[] = new Array(numCell);
@@ -87,4 +189,7 @@ export class GameService {
        }
     }
   }
-}
+
+
+  }
+
