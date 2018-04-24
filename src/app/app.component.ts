@@ -14,7 +14,6 @@ export class AppComponent {
     { RowNumber: 0, ListadoBloques: [ new Bloque(0), new Bloque(1), new Bloque(2)] },
     { RowNumber: 1, ListadoBloques: [ new Bloque(3), new Bloque(4), new Bloque(5)] },
     { RowNumber: 2, ListadoBloques: [ new Bloque(6), new Bloque(7), new Bloque(8)] },
-    { RowNumber: 3, ListadoBloques: [ new Bloque(6), new Bloque(7), new Bloque(8)] }
   ];
 
 }
