@@ -7,6 +7,7 @@ export class Bloque {
 
   constructor(Id: number) {
     this.Id = Id;
+    this._IsFree = true;
   }
 
   get IsFree(): boolean {

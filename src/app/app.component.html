@@ -18,17 +18,25 @@
          </h4>
     </div>
     <div class="col-lg-4">
-        <h4 class="text-gray w-100 pl-2 py-3 my-4 border-bottom border-purple ">
+        <h4 class="text-purple w-100 pl-2 py-3 my-4 border-bottom border-purple ">
             {{ game.Player2.Name}}: <span>{{ game.Player2.Wins }}</span>
          </h4>
     </div>
+  </div>
+  <div class="row">
+      <div class="col-lg-6  text-center" >
+          <h4 class="mb-0 text-gray">Turno de: {{game.PlayerActual.Name}}</h4>
+      </div>
+      <div class="col-lg-6  text-center" >
+          <h4 class="mb-0 text-gray">Turno #{{game.Movidas}}</h4>
+      </div>
   </div>
 </div>
 <div>
   <div  class="row justify-content-center align-items-center ">
     <div class="col-lg-4">
       <div class="bg-white my-3 box-shadow">
-          <app-grid [ListaRows]="game.ListaFilas"></app-grid>
+          <app-grid (OnCellSelected)="CellClick($event)" [ListaRows]="game.ListaFilas"></app-grid>
       </div>
     </div>
     <div class="col-lg-1"></div>

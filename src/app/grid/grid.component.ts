@@ -1,6 +1,6 @@
 import { Bloque } from './../Models/bloque';
 
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { IRow } from '../Models/Row';
 
 
@@ -12,13 +12,13 @@ import { IRow } from '../Models/Row';
 })
 export class GridComponent implements OnInit {
    @Input() ListaRows: IRow[];
+   @Output() OnCellSelected = new EventEmitter<number>();
 
   backgroundColor: string;
 
   constructor() {
 
   }
-
 
   ngOnInit() {
     console.log('iniciando grid component');
@@ -36,5 +36,6 @@ export class GridComponent implements OnInit {
 
   OnClick(IdCelda: number): void {
     console.log('Click en la celda ' +  IdCelda);
+    this.OnCellSelected.emit(IdCelda);
   }
 }

@@ -1,8 +1,8 @@
+import { Bloque } from './../Models/bloque';
 import { Player } from './../Models/Player';
 import { IRow } from './../Models/Row';
 import { ConfigOptions } from './../Models/ConfigOptions';
 import { Injectable } from '@angular/core';
-import { Bloque } from '../Models/bloque';
 import { TipoContenido } from '../Models/Tipo';
 
 @Injectable()
@@ -14,10 +14,20 @@ export class GameService {
   Empates: number;
 
   private _configuracion: ConfigOptions;
+  private turno: boolean;
+  private _movidas: number;
 
   get Configuracion(): ConfigOptions {
     return this._configuracion;
   }
+
+  get PlayerActual(): Player {
+     return (this.turno) ?  this.Player1 :  this.Player2;
+  }
+
+  get Movidas(): number {
+     return this._movidas;
+ }
 
   constructor() { }
 
@@ -37,7 +47,20 @@ export class GameService {
       Tipo: TipoContenido.O
     };
     this.Empates = 0;
+    this.turno = true;
+    this._movidas = 1;
   }
+
+  public ProcesarTurno(idCelda: number) {
+    const celda = this.GetBloqueByID(idCelda);
+
+    if (!celda.IsFree) {return; }
+
+    celda.SetDato(this.PlayerActual.Tipo);
+    this.turno = !this.turno;
+    this._movidas++;
+  }
+
 
   private GenerarRows(numCell: number): IRow[] {
       const arregloRows: IRow[] = new Array(numCell);
@@ -53,5 +76,15 @@ export class GameService {
          }
       }
       return arregloRows;
+  }
+
+  private GetBloqueByID(id: number): Bloque {
+    for (const fila of this.ListaFilas) {
+       for (const bloqueActual of fila.ListadoBloques) {
+          if (bloqueActual.Id === id) {
+            return bloqueActual;
+          }
+       }
+    }
   }
 }
