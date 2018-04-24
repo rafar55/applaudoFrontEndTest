@@ -1,8 +1,10 @@
+import { Player } from './Models/Player';
 import { ConfigOptions } from './Models/ConfigOptions';
 import { GameService } from './Services/game.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Bloque } from './Models/bloque';
 import { IRow } from './Models/Row';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +13,12 @@ import { IRow } from './Models/Row';
 })
 export class AppComponent implements OnInit {
 
-  constructor(public game: GameService) {
+  tituloModal: string;
+  mensajeModal: string;
+  @ViewChild('modalSucces') modal: any;
 
+  constructor(public game: GameService, private modalService: NgbModal) {
+    game.Terminado.subscribe(player => this.OnJuegoTerminado(player));
   }
 
   ngOnInit(): void {
@@ -30,6 +36,18 @@ export class AppComponent implements OnInit {
 
   CellClick(idCell: number): void {
     this.game.ProcesarTurno(idCell);
+  }
+
+
+
+
+  private OnJuegoTerminado(player: Player) {
+    console.log('Juego terminado!!!');
+    this.tituloModal = (player === null) ? 'Empate!' : 'Ganastes!';
+    this.mensajeModal = (player === null) ? 'El juego termino en un empate!'
+    : player.Name + ' has ganado la partida!';
+
+    this.modalService.open(this.modal, {centered: true, size: 'sm'});
   }
 
 }

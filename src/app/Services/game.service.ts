@@ -63,10 +63,14 @@ export class GameService {
     if (!celda.IsFree || this._juegoTerminado) {return; }
 
     celda.SetDato(this.PlayerActual.Tipo);
-    this.turno = !this.turno;
-    this._movidas++;
 
     this.CheckEstadoJuego();
+
+    if (this._juegoTerminado === false) {
+      this.turno = !this.turno;
+      this._movidas++;
+    }
+
   }
 
   // Este es el metodo que me dira si el juego ya termino
@@ -161,7 +165,10 @@ export class GameService {
 
 
   private ShowWinningCells(listaCells: Bloque[]) {
-    listaCells.forEach(x => x.backgroundColor = '#c5f2bc');
+    listaCells.forEach(x => {
+       x.backgroundColor = '#c5f2bc';
+       x.IsGanador = true;
+    });
   }
 
   private GenerarRows(numCell: number): IRow[] {

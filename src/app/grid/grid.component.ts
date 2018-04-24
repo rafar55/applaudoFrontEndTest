@@ -25,11 +25,13 @@ export class GridComponent implements OnInit {
   }
 
   OnHover(bloque: Bloque): void {
+    if (bloque.IsGanador){ return; }
     // console.log('mouse encima');
     bloque.backgroundColor = 'gray';
   }
 
   OnOut(bloque: Bloque): void {
+   if (bloque.IsGanador){ return; }
    // console.log('mouse out');
    bloque.backgroundColor = 'white';
   }

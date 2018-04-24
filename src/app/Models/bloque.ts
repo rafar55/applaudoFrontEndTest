@@ -4,6 +4,7 @@ export class Bloque {
   private _IsFree: boolean;
   private _Contenido: string;
   backgroundColor: string;
+  IsGanador: boolean;
 
   constructor(Id: number) {
     this.Id = Id;
