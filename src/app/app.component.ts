@@ -24,8 +24,8 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     const defaults: ConfigOptions = {
       numN: 3,
-      Player1: 'Player 1',
-      Player2: 'Player 2'
+      Player1: 'Fulanito Perez',
+      Player2: 'Juanito'
     };
     this.game.IniciarJuego(defaults);
   }
@@ -33,6 +33,11 @@ export class AppComponent implements OnInit {
   ReiniciarJuego(opciones: ConfigOptions): void {
     this.game.IniciarJuego(opciones);
   }
+
+  LimpiarTabla(): void {
+    this.game.ResetTable();
+  }
+
 
   CellClick(idCell: number): void {
     this.game.ProcesarTurno(idCell);

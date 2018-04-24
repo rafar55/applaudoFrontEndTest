@@ -23,6 +23,7 @@ export class Bloque {
     if (tipo === null) {
       this._IsFree = true;
       this._Contenido = '';
+      return;
     }
 
     if (tipo === TipoContenido.O) { this._Contenido = 'O'; } else { this._Contenido = 'X'; }

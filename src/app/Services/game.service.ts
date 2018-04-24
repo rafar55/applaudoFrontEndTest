@@ -73,6 +73,17 @@ export class GameService {
 
   }
 
+  public ResetTable(): void {
+    for (const fila of this.ListaFilas) {
+      for (const celda of fila.ListadoBloques) {
+        celda.SetDato();
+        celda.backgroundColor = '';
+      }
+    }
+    this._juegoTerminado = false;
+    this.turno = true;
+  }
+
   // Este es el metodo que me dira si el juego ya termino
   private CheckEstadoJuego(): void {
 
@@ -102,21 +113,20 @@ export class GameService {
     }
   }
 
-
   private CheckHorizontalWin(): boolean {
-    let flagGanado = false;
-    const celdasGanadoras: Bloque[] = [];
-    for (const row of this.ListaFilas) {
 
-     let valorActual: string = row.ListadoBloques[0].Contenido;
+    for (const row of this.ListaFilas) {
+     let flagGanado = true;
+     const celdasGanadoras: Bloque[] = [];
+     const valorInicial: string = row.ListadoBloques[0].Contenido;
 
      for (const cell of row.ListadoBloques) {
-        flagGanado = (valorActual === cell.Contenido && cell.IsFree === false);
-        if (flagGanado) {
-          celdasGanadoras.push(cell);
+        if (cell.Contenido !== valorInicial || cell.IsFree) {
+          flagGanado = false;
+          break;
         }
-        valorActual = cell.Contenido;
-      }
+        celdasGanadoras.push(cell);
+     }
 
       if (flagGanado) {
         this.ShowWinningCells(celdasGanadoras);
@@ -127,20 +137,20 @@ export class GameService {
   }
 
   private CheckVerticalWin(): boolean {
-    let flagGanado = false;
-    const celdasGanadoras: Bloque[] = [];
-    for (let y = 0; y < this._configuracion.numN; y++) {
 
-        let valorActual = this.ListaFilas[0].ListadoBloques[y].Contenido;
+    for (let y = 0; y < this._configuracion.numN; y++) {
+        let flagGanado = true;
+        const celdasGanadoras: Bloque[] = [];
+        const valorInicial = this.ListaFilas[0].ListadoBloques[y].Contenido;
 
         for (let x =  0; x < this._configuracion.numN; x++) {
           const filaActual = this.ListaFilas[x];
           const cellActual = filaActual.ListadoBloques[y];
-           flagGanado = (valorActual === cellActual.Contenido && cellActual.IsFree === false );
-           if (flagGanado) {
-              celdasGanadoras.push(cellActual);
-           }
-           valorActual = cellActual.Contenido;
+          if (cellActual.Contenido !== valorInicial || cellActual.IsFree) {
+            flagGanado = false;
+            break;
+          }
+          celdasGanadoras.push(cellActual);
         }
 
         if (flagGanado) {
@@ -155,7 +165,7 @@ export class GameService {
   private CheckDraw(): boolean {
     for (const row of this.ListaFilas) {
       for (const cell of row.ListadoBloques) {
-          if (cell.IsFree === false) {
+          if (cell.IsFree) {
             return false;
           }
        }
