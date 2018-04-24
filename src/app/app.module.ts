@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { AppNavbarComponent } from './app-navbar/app-navbar.component';
 import { GridComponent } from './grid/grid.component';
 import { ConfigFormComponent } from './config-form/config-form.component';
-
+import { GameService } from './Services/game.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,7 @@ import { ConfigFormComponent } from './config-form/config-form.component';
     BrowserModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [ GameService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { ConfigOptions } from './Models/ConfigOptions';
+import { GameService } from './Services/game.service';
+import { Component, OnInit } from '@angular/core';
 import { Bloque } from './Models/bloque';
 import { IRow } from './Models/Row';
 
@@ -7,13 +9,23 @@ import { IRow } from './Models/Row';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'Rafael Romero';
+export class AppComponent implements OnInit {
 
-  ListaRows: IRow[] =  [
-    { RowNumber: 0, ListadoBloques: [ new Bloque(0), new Bloque(1), new Bloque(2)] },
-    { RowNumber: 1, ListadoBloques: [ new Bloque(3), new Bloque(4), new Bloque(5)] },
-    { RowNumber: 2, ListadoBloques: [ new Bloque(6), new Bloque(7), new Bloque(8)] },
-  ];
+  constructor(public game: GameService) {
+
+  }
+
+  ngOnInit(): void {
+    let defaults: ConfigOptions = {
+      numN: 3,
+      Player1: 'Player 1',
+      Player2: 'Player 2'
+    };
+    this.game.IniciarJuego(defaults);
+  }
+
+  ReiniciarJuego(opciones: ConfigOptions): void {
+    this.game.IniciarJuego(opciones);
+  }
 
 }

@@ -8,18 +8,18 @@
   <div class="row">
     <div class="col-lg-4">
       <h4 class="text-purple w-100 pl-2 py-3 my-4 border-bottom border-purple ">
-        Rafa:
-        <span>1</span>
+         {{ game.Player1.Name }}:
+        <span>{{ game.Player1.Wins}}</span>
       </h4>
     </div>
     <div class="col-lg-4">
         <h4 class="text-gray w-100 pl-2 py-3 my-4 border-bottom border-purple ">
-            Empates: <span>1</span>
+            Empates: <span>{{game.Empates}}</span>
          </h4>
     </div>
     <div class="col-lg-4">
         <h4 class="text-gray w-100 pl-2 py-3 my-4 border-bottom border-purple ">
-            Loco: <span>1</span>
+            {{ game.Player2.Name}}: <span>{{ game.Player2.Wins }}</span>
          </h4>
     </div>
   </div>
@@ -28,12 +28,12 @@
   <div  class="row justify-content-center align-items-center ">
     <div class="col-lg-4">
       <div class="bg-white my-3 box-shadow">
-          <app-grid [ListaRows]="ListaRows"></app-grid>
+          <app-grid [ListaRows]="game.ListaFilas"></app-grid>
       </div>
     </div>
     <div class="col-lg-1"></div>
     <div class="col-lg-4 bg-white my-3 box-shadow  bd-example">
-        <app-config-form></app-config-form>
+        <app-config-form [datosIniciales]="game.Configuracion" (OnNuevaConfiguracion)="ReiniciarJuego($event)"></app-config-form>
     </div>
   </div>
 </div>
