@@ -1,7 +1,36 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
+
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&lang=en");
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,300,500,700");
+
+::-moz-selection { background-color: #6B61AB; color: #fff; }
+::selection { background-color: #6B61AB; color: #fff; }
+
+html {
+  position: relative;
+  min-height: 100%;
+}
 body {
-  padding-top: 70px;
+    margin-bottom: 50px; /* Margin bottom by footer height */
+    background-color: #f3f3f4;
+    font-family: 'Open Sans', sans-serif;;
 }
 
+.igbox { background-color: #FFF; }
+.box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
 
+footer {
+    border-top: #f3f3f4 solid 2px;
+    font-size: 0.75em;
+    position: absolute;
+    bottom: 0;
+    background-color: #fff;
+}
+
+.text-red{
+  color: #FF4040;
+}
+
+.text-purple { color: #6B61AB !important; }
+.border-purple { border-color: #6B61AB !important; }
