@@ -82,6 +82,7 @@ export class GameService {
     }
     this._juegoTerminado = false;
     this.turno = true;
+    this._movidas = 1;
   }
 
   // Este es el metodo que me dira si el juego ya termino
@@ -97,6 +98,14 @@ export class GameService {
     }
 
     if (this.CheckVerticalWin()) {
+      console.log('juego se gano de forma vertical');
+      this.PlayerActual.Wins += 1;
+      this._juegoTerminado = true;
+      this.Terminado.next(this.PlayerActual);
+      return;
+    }
+
+    if (this.CheckDiagonalWin()) {
       console.log('juego se gano de forma vertical');
       this.PlayerActual.Wins += 1;
       this._juegoTerminado = true;
@@ -160,6 +169,48 @@ export class GameService {
     }
 
     return false;
+  }
+
+  private CheckDiagonalWin(): boolean {
+    let flagGanados = true;
+    let celdasGanadoras: Bloque[] = [];
+    let valorInicial = this.ListaFilas[0].ListadoBloques[0].Contenido;
+
+    // for para revisar la primera diagonal
+    for (let i = 0; i < this._configuracion.numN; i++) {
+       const bloqueActual = this.ListaFilas[i].ListadoBloques[i];
+       if (bloqueActual.Contenido !== valorInicial || bloqueActual.IsFree){
+          flagGanados = false;
+          break;
+       }
+       celdasGanadoras.push(bloqueActual);
+    }
+
+    if (flagGanados) {
+      this.ShowWinningCells(celdasGanadoras);
+      return flagGanados;
+     }
+
+    flagGanados = true;
+    celdasGanadoras = [];
+    valorInicial = this.ListaFilas[this._configuracion.numN - 1].ListadoBloques[0].Contenido;
+
+    // for para probar la otra diagonal
+    for (let i = (this.Configuracion.numN - 1); i >= 0; i--) {
+      const bloqueActual = this.ListaFilas[i].ListadoBloques[(this._configuracion.numN - 1) - i];
+      if (bloqueActual.Contenido !== valorInicial || bloqueActual.IsFree) {
+         flagGanados = false;
+         break;
+      }
+      celdasGanadoras.push(bloqueActual);
+   }
+
+    if (flagGanados) {
+      this.ShowWinningCells(celdasGanadoras);
+    }
+
+    return flagGanados;
+
   }
 
   private CheckDraw(): boolean {
