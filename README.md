@@ -9,6 +9,10 @@ Interfaz en angular de un juego de X y 0 adonde la tabla puede variar NXN. Se hi
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.3.
 
+## Probar en azure
+
+He puesto la aplicacion en Azure para que la puedan ver ahi http://applaudofrontendtest.azurewebsites.net/
+
 ## Development server
 
 Run `ng serve -0` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
